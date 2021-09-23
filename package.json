@@ -1,0 +1,11 @@
+{
+  "name": "elas-ride",
+  "version": "1.0.0",
+  "description": "Elas Ride, app urbano somente para mulheres",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thiago Ferrari",
+  "license": "ISC"
+}
