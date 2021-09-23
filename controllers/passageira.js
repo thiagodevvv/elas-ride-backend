@@ -1,5 +1,7 @@
+const Passageira = require('../src/validations/passageira');
+
 module.exports = app => {
-    app.get('/', (req, res) => {
-        res.status(200).send('hello Elas Ride');
+    app.get('/passageira/signup', (req, res) => {
+        Passageira.validations(res, req.body);
     });
 }
