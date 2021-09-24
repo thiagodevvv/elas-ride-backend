@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const customExpress = require('./config/customExpress');
 const connectDB = require('./config/connectDB');
 const Tabelas = require('./src/database/tabelas')
