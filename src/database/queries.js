@@ -14,7 +14,10 @@ const execQuery = (res, sql, endereco = null) => {
                     console.log('Erro ao criar na tabela endereço');
                     console.log(err)
                 }
-                const data = {...results, ...result}
+                const statusOk = {
+                    statusOk: "Passageira cadastrada!"
+                }
+                const data = {...results, ...result, ...statusOk}
                 res.json(data);
             })
         }

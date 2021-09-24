@@ -28,7 +28,6 @@ class Passageira {
         try {
             axios.get(`https://viacep.com.br/ws/${data.cep}/json/`)
             .then((endereco) => {
-
                 const response = mockApiCPF('cpf');
                 if(response.genero === 'F' && response.situacao_cadastral === 'REGULAR') {
                    const numeroCasa = { numeroCasa: data.n_casa }
