@@ -1,4 +1,4 @@
-const Passageira = require('../src/validations/passageira');
+const Passageira = require('../../src/validations/passageira');
 
 module.exports = app => {
     app.post('/passageira/signup', (req, res) => {
