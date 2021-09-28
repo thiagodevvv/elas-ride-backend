@@ -1,5 +1,6 @@
 const crudMotorista = require('../crud/motorista');
 const Validate = require('../../common/validateCpf');
+const ValidateMotorista = require('../../common/validateMotorista');
 
 
 class Motorista {
@@ -14,17 +15,16 @@ class Motorista {
         }
         // Validar CPF e CNH motorista
         const isValidCPF = Validate.cpf(data.cpf);
-        if(isValidCPF) {
-            console.log('O CPF É VALIDO PO')
-        }
-
+    
         // Validar Veiculo
+        const isValidCnh = ValidateMotorista.cnh('e2342432432');
+        const isValidVeiculo = ValidateMotorista.veiculo('324098294', 'FAR8990');
 
-        //Se validação OK, chamar Crud pra adicionar dados
-        if(true) {
+        if(isValidCPF && isValidCnh && isValidVeiculo) {
             crudMotorista.signup(res, "data");
+        } else {
+            return res.status(400).send('Dados incorretos');
         }
-        // res.status(200).send('Chamou Motorista Validations');
     }
 }
 
