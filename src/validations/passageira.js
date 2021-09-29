@@ -3,6 +3,7 @@ const crudPassageira = require('../crud/passageira');
 const axios = require('axios');
 const bcrypt = require('bcrypt');
 const Validate = require('../../common/validateCpf');
+const utils = require('../../common/utils');
 
 
 class Passageira {
@@ -11,31 +12,38 @@ class Passageira {
         if(data.cpf.length > 11) {
             res.status(400).send('CPF maior que 11 digitos');
         }
-        try {
-            axios.get(`https://viacep.com.br/ws/${data.cep}/json/`)
-            .then((endereco) => {
-                const response = mockApiCPF('cpf');
-                if(response.genero === 'F' && response.situacao_cadastral === 'REGULAR') {
-                   const numeroCasa = { 
-                       numeroCasa: data.n_casa 
-                    }
-                   bcrypt.hash(data.password, parseInt(process.env.SALT_ROUNDS), (err, hash) => {
-                        if(err) {
-                            console.log(`Error create hash for password ${err}`);
+        const isValidParams = utils.validateFieldsBodyPassageira(data);
+        if(isValidParams.status == 200) {
+            try {
+                axios.get(`https://viacep.com.br/ws/${data.cep}/json/`)
+                .then((endereco) => {
+                    const isValidCPF = Validate.cpf('cpf');
+                    if(isValidCPF) {
+                       const numeroCasa = { 
+                           numeroCasa: data.n_casa 
                         }
-                        data.password = hash;
-                        const enderecoCompleto = {...endereco.data, ...numeroCasa}
-                        crudPassageira.signup(res, data, enderecoCompleto);
-                   })
-                }
-            })
-            .catch((err) => {
-                //Não conseguiu pegar CEP.
+                       bcrypt.hash(data.password, parseInt(process.env.SALT_ROUNDS), (err, hash) => {
+                            if(err) {
+                                console.log(`Error create hash for password ${err}`);
+                            }
+                            data.password = hash;
+                            const enderecoCompleto = {...endereco.data, ...numeroCasa}
+                            crudPassageira.signup(res, data, enderecoCompleto);
+                       })
+                    }else {
+                        return res.status(400).send('CPF Inválido');
+                    }
+                })
+                .catch((err) => {
+                    //Não conseguiu pegar CEP.
+                    return res.status(400).json(err)
+                })                
+    
+            }catch (err) {
                 return res.status(400).json(err)
-            })                
-
-        }catch (err) {
-            return res.status(400).json(err)
+            }
+        }else {
+            return res.status(400).send(isValidParams);
         }
     }
 }
