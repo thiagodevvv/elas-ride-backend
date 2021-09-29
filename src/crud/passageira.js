@@ -1,6 +1,6 @@
-const execQuery = require('../database/queries');
+const {execQuery} = require('../database/queries');
 
-class Passageiras {
+class Passageira {
 
     signup(res, dataPassageira, dataEndereco) {
         const sql = `INSERT INTO Passageiras(nome, cpf, password) VALUES('${dataPassageira.nome}', '${dataPassageira.cpf}', '${dataPassageira.password}')`
@@ -8,4 +8,4 @@ class Passageiras {
     }
 }
 
-module.exports = new Passageiras;
+module.exports = new Passageira;

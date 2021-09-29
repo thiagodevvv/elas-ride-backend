@@ -2,6 +2,7 @@ const crudMotorista = require('../crud/motorista');
 const Validate = require('../../common/validateCpf');
 const ValidateMotorista = require('../../common/validateMotorista');
 const utils = require('../../common/utils');
+const bcrypt = require('bcrypt');
 
 
 class Motorista {
@@ -18,7 +19,13 @@ class Motorista {
             const isValidVeiculo = ValidateMotorista.veiculo('324098294', 'FAR8990');
 
             if(isValidCPF && isValidCnh && isValidVeiculo) {
-                crudMotorista.signup(res, "data");
+                bcrypt.hash(data.password, parseInt(process.env.SALT_ROUNDS), (err, hash) => {
+                    if(err) {
+                        console.log(`Error create hash for password ${err}`);
+                    }
+                    data.password = hash;
+                    crudMotorista.signup(res, data);
+               })
             }else {
                 return res.status(400).send('Dados incorretos');
             }

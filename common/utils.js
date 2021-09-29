@@ -1,7 +1,9 @@
 class Utils {
+
     validateFieldsBodyMotorista(body) {
 
-        const isRequiredParams = ["nome", "cpf", "cnh", "renavam", "placa", "cep", "rua", "numero", "bairro", "password"].sort();
+        const isRequiredParams = ["nome", "cpf", "cnh", "renavam", "placa", "marca", "modelo", "ano", "cep", 
+                                  "rua", "numero", "bairro", "password", "cnh", "validade_cnh"].sort();
         const paramsBody = Object.keys(body).sort();
         let missingFields = [];
         isRequiredParams.map((param) => {

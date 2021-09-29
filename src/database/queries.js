@@ -24,5 +24,36 @@ const execQuery = (res, sql, endereco = null) => {
     })
 }
 
+const execQueryMotorista = (res, sqlMotorista, endereco, veiculo) => {
+    connectDB.query(sqlMotorista, (err, result) => {
+        if(err) {
+            res.json(err);
+        }else {
+            const sqlVeiculo = `INSERT INTO Veiculos(renavam, placa, ano, idMotorista, marca, modelo) VALUES('${veiculo.renavam}', '${veiculo.placa}','${veiculo.ano}','${result.insertId}', '${veiculo.marca}', '${veiculo.modelo}')`
+            connectDB.query(sqlVeiculo, (err, results) => {
+                if(err) {
+                    res.json(err)
+                }else {
+                    const sqlEndereco = `INSERT INTO Endereco(rua, cep, numero, bairro, userid) VALUES('${endereco.rua}', '${endereco.cep}','${endereco.numero}','${endereco.bairro}', '${result.insertId}')`
+                    connectDB.query(sqlEndereco, (err, resultsFinal) => {
+                        if(err) {
+                            res.json(err)
+                        }else {
+                            const statusOk = {
+                                statusOk: "Motorista cadastrado com sucesso!"
+                            }
+                            const succes = {...result, ...results, ...resultsFinal, ...statusOk}
+                            res.status(200).send(succes);
+                        }
+                    })
+                }
+            })
+        }
+    })
+}
 
-module.exports = execQuery;
+module.exports = {
+    execQuery,
+    execQueryMotorista
+};
+
