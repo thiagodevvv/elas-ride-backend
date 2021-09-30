@@ -34,7 +34,7 @@ const execQueryMotorista = (res, sqlMotorista, endereco, veiculo) => {
                 if(err) {
                     res.json(err)
                 }else {
-                    const sqlEndereco = `INSERT INTO Endereco(rua, cep, numero, bairro, userid) VALUES('${endereco.rua}', '${endereco.cep}','${endereco.numero}','${endereco.bairro}', '${result.insertId}')`
+                    const sqlEndereco = `INSERT INTO Endereco_motorista(rua, cep, numero, bairro, userid) VALUES('${endereco.rua}', '${endereco.cep}','${endereco.numero}','${endereco.bairro}', '${result.insertId}')`
                     connectDB.query(sqlEndereco, (err, resultsFinal) => {
                         if(err) {
                             res.json(err)

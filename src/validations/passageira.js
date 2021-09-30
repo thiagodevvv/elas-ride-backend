@@ -20,7 +20,7 @@ class Passageira {
                     const isValidCPF = Validate.cpf('cpf');
                     if(isValidCPF) {
                        const numeroCasa = { 
-                           numeroCasa: data.n_casa 
+                           numeroCasa: data.numero 
                         }
                        bcrypt.hash(data.password, parseInt(process.env.SALT_ROUNDS), (err, hash) => {
                             if(err) {
