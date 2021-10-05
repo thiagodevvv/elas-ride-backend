@@ -18,12 +18,12 @@ class Tabelas {
     }
 
     createPassageiras() {
-        const sql = 'CREATE TABLE IF NOT EXISTS Passageiras (id int NOT NULL AUTO_INCREMENT, nome varchar(150) NOT NULL, cpf varchar(11) NOT NULL, password varchar(300) NOT NULL, PRIMARY KEY (id));'
+        const sql = 'CREATE TABLE IF NOT EXISTS Passageiras (id int NOT NULL AUTO_INCREMENT, nome varchar(150) NOT NULL, cpf varchar(11) NOT NULL, password varchar(300) NOT NULL, PRIMARY KEY (id), UNIQUE(cpf));'
         this.createTable(sql);
     }
 
     createMotoristas() {
-        const sql = 'CREATE TABLE IF NOT EXISTS Motoristas (id int NOT NULL AUTO_INCREMENT, nome varchar(150) NOT NULL, cpf varchar(11) NOT NULL, cnh varchar(100) NOT NULL, validade_cnh varchar(10) NOT NULL, password varchar(300) NOT NULL, PRIMARY KEY(id));'
+        const sql = 'CREATE TABLE IF NOT EXISTS Motoristas (id int NOT NULL AUTO_INCREMENT, nome varchar(150) NOT NULL, cpf varchar(11) NOT NULL, cnh varchar(100) NOT NULL, validade_cnh varchar(10) NOT NULL, password varchar(300) NOT NULL, UNIQUE(cpf),PRIMARY KEY(id));'
         this.createTable(sql);
     }
     

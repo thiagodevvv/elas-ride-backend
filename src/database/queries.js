@@ -1,5 +1,6 @@
+const bcrypt =  require('bcrypt');
+const jwt = require('jsonwebtoken');
 const connectDB = require('../../config/connectDB');
-
 
 const execQuery = (res, sql, endereco = null) => {
     console.log(endereco)
@@ -52,8 +53,34 @@ const execQueryMotorista = (res, sqlMotorista, endereco, veiculo) => {
     })
 }
 
+const execQueryFindUser = async (res, sql, password) => {
+    connectDB.query(sql, (err, result) => {
+        if(err) {
+            console.log('erro ao executar query find user')
+        }
+        if(result.length == 1) {
+            bcrypt.compare(password, result[0].password, (err, isMatch) => {
+                if(err || !isMatch) {
+                    return res.status(404).send('Senha incorreta');
+                }
+                const payload = {
+                    id: result[0].id
+                }
+                const token = jwt.sign(payload, process.env.secretOrPrivateKey,  { expiresIn: '24h' });
+
+                return res.status(200).send({
+                    token: token
+                });
+            })
+        }else {
+            res.status(404).send('Usuária passageira não encontrada');
+        }
+    })
+}
+
 module.exports = {
     execQuery,
-    execQueryMotorista
+    execQueryMotorista,
+    execQueryFindUser
 };
 
